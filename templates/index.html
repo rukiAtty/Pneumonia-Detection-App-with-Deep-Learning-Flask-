@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pneumonia detection App</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+</head>
+<body>
+        <div id="splash-screen" class="screen" style="background-color: rgb(5, 27, 26);">
+            <h1>Pneumonia detection app</h1>
+        </div>
+
+    
+    <header class="header">
+        Pneumonia detection App
+    </header>
+    <p class="sharp">Choose a X-ray image of the person to get the results:<br>
+    <p class="sharp">Sample Project by Rukshana Attygalle</p> 
+    <p class="sharp">Please consult to the doctor also for further information: </p>   
+    <form action="/upload" method="post" enctype="multipart/form-data" class="form" style="background-color: aliceblue;">
+        <label class="label" for="file_input">Upload file</label>
+        <input class="input" id="file_input" type="file" name="image" accept="image/*">
+        <button class="upload-button" type="submit">Predict Image</button>
+        <input type="reset">
+    </form>
+    <div class="predicted">
+        {% if predicted %}
+        <p class="sharp">The person is {{ predicted }} </p>
+        {% endif %}
+
+        {% if image %}
+        <img src="data:image/jpeg;base64,{{ image }}" width="300" style="border: 2px solid black;">
+        {% endif %}
+</div>
+    <script>
+            document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                document.getElementById('splash-screen').style.opacity = '0';
+                setTimeout(function() {
+                    document.getElementById('splash-screen').remove();
+                }, 1000);
+            }, 2000); 
+        });
+        function updateButton() {
+            const fileInput = document.getElementById('file_input');
+            const submitButton = document.getElementById('submit_button');
+            submitButton.disabled = !fileInput.value;
+        }
+
+        function validateForm() {
+            const fileInput = document.getElementById('file_input');
+            if (!fileInput.value) {
+                alert("Please upload an image.");
+                return false;
+            }
+            return true;
+        }
+    </script>
+</body>
+</html>
